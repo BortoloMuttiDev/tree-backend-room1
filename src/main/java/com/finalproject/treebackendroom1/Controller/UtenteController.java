@@ -36,6 +36,7 @@ public class UtenteController {
             Utente utenteToAdd = new Utente(utenteView.getUsername(), utenteView.getName(),
                     utenteView.getSurname(), utenteView.getBirthDate(), utenteView.getGender(), password);
 
+            //utenteView.setPassword(password);
             utenteRepository.save(utenteToAdd);
             response.setStatus(201);
             UUID idCookie = UUID.randomUUID();

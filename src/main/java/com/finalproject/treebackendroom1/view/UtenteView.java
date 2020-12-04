@@ -54,4 +54,8 @@ public class UtenteView {
     public String getPassword() {
         return password;
     }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
