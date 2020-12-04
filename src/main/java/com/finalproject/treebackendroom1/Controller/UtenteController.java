@@ -53,9 +53,24 @@ public class UtenteController {
         return utenteView;
     }
 
-    @PostMapping("/login?username={username}&password={password}")
-    public String logInUtente(@PathVariable String username, @PathVariable String password, HttpServletResponse response,
-                              @CookieValue(value = "idCookie") String request){
+    @GetMapping("/login?username={username}&password={password}")
+    public UtenteView logInUtente(@PathVariable String username, @PathVariable String password, HttpServletResponse response
+            /*, @CookieValue(value = "idCookie") String request*/){
+        Optional<Utente> utenteRepo = utenteRepository.findById(username);
+        if(utenteRepo.isPresent()){
+            String passwordPostSecurity = passwordSecurity.passwordSecurity(password);
+            if(passwordPostSecurity.equals(utenteRepo.get().getPassword())){
+                Optional<LogIn> logInUtente = logInRepository.findByUsername(username);
+                if(logInUtente.isPresent()){
+                   
+
+
+                }
+
+            }
+
+
+        }
 
 
         return null;
