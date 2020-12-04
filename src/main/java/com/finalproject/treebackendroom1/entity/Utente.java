@@ -40,7 +40,7 @@ public class Utente {
     }
 
     public Utente(String username, String name, String surname, Date birthDate, Gender gender, String password){
-        this.surname = surname;
+        this.username = username;
         this.name = name;
         this.surname = surname;
         this.birthDate = birthDate;
