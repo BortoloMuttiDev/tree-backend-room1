@@ -3,10 +3,9 @@ package com.finalproject.treebackendroom1.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.annotations.common.util.StringHelper;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -19,8 +18,9 @@ public class Evento {
     //private Boolean owned;  //non dentro database ma nella view
     private String name;
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'hh:mm:ss")
-    private Timestamp date;
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-ddThh:mm:ss")
+    private Date date;
     private String place;
     private Integer capacity;
 
@@ -54,7 +54,7 @@ public class Evento {
         return name;
     }
 
-    public Timestamp getDate() {
+    public Date getDate() {
         return date;
     }
 

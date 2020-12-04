@@ -30,12 +30,13 @@ public class UtenteController {
     @PostMapping("/user")
     public UtenteView signUpUser(@RequestBody UtenteView utenteView, HttpServletRequest request, HttpServletResponse response){
         //Registra un utente alla piattaforma
+        System.out.println(utenteView.getUsername());
         Optional<Utente> utenteEntity = utenteRepository.findById(utenteView.getUsername());
         if(utenteEntity.isEmpty()){
             String password = passwordSecurity.passwordSecurity(utenteView.getPassword());
             Utente utenteToAdd = new Utente(utenteView.getUsername(), utenteView.getName(),
                     utenteView.getSurname(), utenteView.getBirthDate(), utenteView.getGender(), password);
-
+            System.out.println(utenteView.getUsername() + " " + utenteView.getName());
             //utenteView.setPassword(password);
             utenteRepository.save(utenteToAdd);
             response.setStatus(201);
