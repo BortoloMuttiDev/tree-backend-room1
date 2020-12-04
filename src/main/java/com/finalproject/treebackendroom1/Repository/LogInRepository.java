@@ -4,5 +4,5 @@ import com.finalproject.treebackendroom1.entity.LogIn;
 import com.finalproject.treebackendroom1.entity.Utente;
 import org.springframework.data.repository.CrudRepository;
 
-public interface LogInRepository extends CrudRepository<LogIn, Utente> {
+public interface LogInRepository extends CrudRepository<LogIn, Long> {
 }

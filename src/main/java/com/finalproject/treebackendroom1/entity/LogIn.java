@@ -1,5 +1,7 @@
 package com.finalproject.treebackendroom1.entity;
 
+import org.hibernate.annotations.NaturalId;
+
 import javax.persistence.*;
 import java.util.UUID;
 
@@ -7,7 +9,11 @@ import java.util.UUID;
 public class LogIn {
 
     @Id
-    private Utente utente;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+
+    @NaturalId
+    private String username;
 
     //non salvare cookie in database ma il valore asociado a la cookie
     private UUID cookie;
@@ -17,23 +23,23 @@ public class LogIn {
 
     }
 
-    public LogIn(Utente utente, UUID cookie){
-        this.utente = utente;
+    public LogIn(String utente, UUID cookie){
+        this.username = utente;
         this.cookie = cookie;
 
     }
 
 
-    public Utente getUsername() {
-        return utente;
+    public String getUsername() {
+        return username;
     }
 
     public UUID getCookie() {
         return cookie;
     }
 
-    public void setUsername(Utente utente) {
-        this.utente = utente;
+    public void setUsername(String utente) {
+        this.username = utente;
     }
 
     public void setCookie(UUID cookie) {
