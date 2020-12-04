@@ -18,7 +18,8 @@ public class Utente {
     private String name;
     private String surname;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
+    @JsonFormat (pattern = "yyyy-MM-dd")
     private Date birthDate;
 
     private Gender gender;

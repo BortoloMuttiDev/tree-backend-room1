@@ -13,6 +13,7 @@ public class UtenteView {
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date birthDate;
+
     private Gender gender;
     private String password;
 
