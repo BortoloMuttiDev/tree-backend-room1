@@ -23,8 +23,8 @@ public class LogIn {
 
     }
 
-    public LogIn(String utente, UUID cookie){
-        this.username = utente;
+    public LogIn(String username, UUID cookie){
+        this.username = username;
         this.cookie = cookie;
 
     }

@@ -16,7 +16,7 @@ public class Evento {
     @Id
     private UUID eventid;
 
-    private Boolean owned;
+    //private Boolean owned;  //non dentro database ma nella view
     private String name;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'hh:mm:ss")
@@ -33,9 +33,9 @@ public class Evento {
 
     }
 
-    public Evento(UUID eventid, Boolean owned, String name, Timestamp date, String place, Integer capacity, Utente creatore) {
+    public Evento(UUID eventid, /*Boolean owned,*/ String name, Timestamp date, String place, Integer capacity, Utente creatore) {
         this.eventid = eventid;
-        this.owned = owned;
+        //this.owned = owned;
         this.name = name;
         this.date = date;
         this.place = place;
@@ -48,10 +48,6 @@ public class Evento {
 
     public UUID getEventid() {
         return eventid;
-    }
-
-    public Boolean getOwned() {
-        return owned;
     }
 
     public String getName() {
@@ -76,10 +72,6 @@ public class Evento {
 
     public void setEventid(UUID eventid) {
         this.eventid = eventid;
-    }
-
-    public void setOwned(Boolean owned) {
-        this.owned = owned;
     }
 
     public void setName(String name) {

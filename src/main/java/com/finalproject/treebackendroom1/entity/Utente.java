@@ -39,11 +39,13 @@ public class Utente {
 
     }
 
-    public Utente(String username, String name, String surname, Date birthDate){
+    public Utente(String username, String name, String surname, Date birthDate, Gender gender, String password){
         this.surname = surname;
         this.name = name;
         this.surname = surname;
         this.birthDate = birthDate;
+        this.gender = gender;
+        this.password = password;
         this.eventiCreati = new ArrayList<>();
         this.eventiPartecipazione = new ArrayList<>();
 
