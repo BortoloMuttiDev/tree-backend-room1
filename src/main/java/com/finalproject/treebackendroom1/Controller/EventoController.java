@@ -216,7 +216,7 @@ public class EventoController {
                         eventoView.setEventid(evento.getEventid());
                         listaEventi.add(eventoView);
                     }
-                    
+
                 }
 
                 response.setStatus(200);
@@ -231,5 +231,42 @@ public class EventoController {
 
         return null;
     }
+    @DeleteMapping("/event/{eventid}")
+    public EventoView cancelEvent (@PathVariable("eventid") String eventid, HttpServletRequest request, HttpServletResponse response,
+                                   @CookieValue(value = "idCookie") String requestCookie){
+        Optional<Evento> eventoToDelete = eventoRepository.findById(UUID.fromString(eventid));
+        if(eventoToDelete.isPresent()){
+            Optional<LogIn> logInUtente = logInRepository.findByCookie(UUID.fromString(requestCookie));
 
+            if(logInUtente.isPresent()){
+                Optional<Utente> utente = utenteRepository.findById(logInUtente.get().getUsername());
+                if(utente.isPresent()){
+                    if(utente.get().getEventiCreati().contains(eventoToDelete.get())){
+
+                        utente.get().getEventiCreati().remove(eventoToDelete.get());
+                        EventoView eventoViewToReturn = new EventoView(eventoToDelete.get().getName(), (Timestamp) eventoToDelete.get().getDate(),
+                                eventoToDelete.get().getPlace(), eventoToDelete.get().getCapacity());
+
+                        for(Utente utenteRepo : utenteRepository.findAll()){
+                            utenteRepo.getEventiPartecipazione().remove(eventoToDelete.get());
+                        }
+
+                        eventoRepository.delete(eventoToDelete.get());
+                        utenteRepository.save(utente.get());
+
+                        response.setStatus(200);
+                        Cookie unaCookie = new Cookie("idCookie", requestCookie);
+                        response.addCookie(unaCookie);
+                        return eventoViewToReturn;
+
+                    }
+                }
+            }
+
+
+
+        }
+
+        return null;
+    }
 }
