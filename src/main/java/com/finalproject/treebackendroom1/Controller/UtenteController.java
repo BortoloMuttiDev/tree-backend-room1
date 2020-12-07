@@ -53,17 +53,25 @@ public class UtenteController {
         return utenteView;
     }
 
-    @GetMapping("/login?username={username}&password={password}")
-    public UtenteView logInUtente(@PathVariable String username, @PathVariable String password, HttpServletResponse response
-            /*, @CookieValue(value = "idCookie") String request*/){
+    @GetMapping("/login")
+    public UtenteView logIn(@RequestParam String username, @RequestParam String password, HttpServletResponse response){
         Optional<Utente> utenteRepo = utenteRepository.findById(username);
         if(utenteRepo.isPresent()){
+            System.out.println("Utente presente");
             String passwordPostSecurity = passwordSecurity.passwordSecurity(password);
             if(passwordPostSecurity.equals(utenteRepo.get().getPassword())){
+                System.out.println("Password uguale");
                 Optional<LogIn> logInUtente = logInRepository.findByUsername(username);
                 if(logInUtente.isPresent()){
-                   
+                    System.out.println("loginpresente");
+                    Cookie unaCookie  = new Cookie("idCookie", logInUtente.get().getCookie().toString());
+                    response.addCookie(unaCookie);
+                    response.setStatus(200);
+                    UtenteView utenteView = new UtenteView(utenteRepo.get().getUsername(), utenteRepo.get().getName(),
+                            utenteRepo.get().getSurname(), utenteRepo.get().getBirthDate(), utenteRepo.get().getGender(),
+                            passwordPostSecurity);
 
+                    return utenteView;
 
                 }
 
@@ -72,8 +80,7 @@ public class UtenteController {
 
         }
 
-
+        response.setStatus(404);
         return null;
     }
-
 }

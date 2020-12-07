@@ -16,10 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.websocket.server.PathParam;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
 
 @RestController
 public class EventoController {
@@ -66,7 +65,7 @@ public class EventoController {
             }
 
         }
-
+        response.setStatus(404);
         return null;
     }
 
@@ -101,7 +100,7 @@ public class EventoController {
             }
         }
 
-
+        response.setStatus(404);
         return null;
     }
 
@@ -122,6 +121,7 @@ public class EventoController {
                         utenteRepository.save(utenteToUnJoin.get());
                         eventoRepository.save(eventoToUnJoin.get());
 
+
                         response.setStatus(201);
                         Cookie unaCookie = new Cookie("idCookie", requestCookie);
                         response.addCookie(unaCookie);
@@ -136,7 +136,7 @@ public class EventoController {
             }
 
         }
-
+        response.setStatus(404);
         return null;
     }
 
@@ -147,7 +147,7 @@ public class EventoController {
         if(logInUtente.isPresent()){
             Optional<Utente> utenteCreatore = utenteRepository.findById(logInUtente.get().getUsername());
             if(utenteCreatore.isPresent()){
-                if(eventoRepository.findByName(eventoView.getName()).isEmpty()){
+
 
                     Evento eventoToCreate = new Evento(eventoView.getName(),eventoView.getDate(),
                             eventoView.getPlace(),eventoView.getCapacity(), utenteCreatore.get());
@@ -167,12 +167,69 @@ public class EventoController {
                     return eventoView;
                 }
 
-            }
+
         }
+        response.setStatus(404);
+        return null;
+    }
+
+    @GetMapping("/event/{eventid}")
+    public EventoView getEventDetails (@PathParam ("eventid") String eventid,HttpServletRequest request, HttpServletResponse response,
+                                       @CookieValue(value = "idCookie") String requestCookie){
+
+        Optional<LogIn> logInUtente = logInRepository.findByCookie(UUID.fromString(requestCookie));
+        if(logInUtente.isPresent()){
+
+            Optional<Evento> eventoToFind = eventoRepository.findById(UUID.fromString(eventid));
+            if (eventoToFind.isPresent()){
+
+                response.setStatus(200);
+                EventoView eventoView = new EventoView(eventoToFind.get().getName(),(Timestamp) eventoToFind.get().getDate(), eventoToFind.get().getPlace(), eventoToFind.get().getCapacity()-eventoToFind.get().getNumUtentiRegistrati());
+                return eventoView;
+            }
+
+        }
+        response.setStatus(404);
 
         return null;
     }
 
+    @GetMapping("/user/events")
+    public List<EventoView> getUserEvents(HttpServletRequest request, HttpServletResponse response,
+                                          @CookieValue(value = "idCookie") String requestCookie){
+        LocalDate localDate = LocalDate.now();
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        Date dataDiOggi  = Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
 
+
+        List<EventoView> listaEventi = new ArrayList<>();
+        Optional<LogIn> logInUtente = logInRepository.findByCookie(UUID.fromString(requestCookie));
+        if(logInUtente.isPresent()){
+            Optional<Utente> utente = utenteRepository.findById(logInUtente.get().getUsername());
+            if(utente.isPresent()){
+                for(Evento evento : utente.get().getEventiPartecipazione()){
+
+                    if (evento.getDate().before(dataDiOggi)){
+
+                        EventoView eventoView = new EventoView(evento.getName(), (Timestamp) evento.getDate(),
+                                evento.getPlace(), evento.getCapacity());
+                        eventoView.setEventid(evento.getEventid());
+                        listaEventi.add(eventoView);
+                    }
+                    
+                }
+
+                response.setStatus(200);
+                Cookie unaCookie = new Cookie("idCookie", requestCookie);
+                response.addCookie(unaCookie);
+                return listaEventi;
+            }
+
+
+        }
+        response.setStatus(404);
+
+        return null;
+    }
 
 }
