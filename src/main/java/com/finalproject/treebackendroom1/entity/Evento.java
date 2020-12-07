@@ -23,6 +23,8 @@ public class Evento {
     private Date date;
     private String place;
     private Integer capacity;
+    private Integer numUtentiRegistrati;
+
 
     @ManyToOne
     private Utente creatore;
@@ -33,18 +35,38 @@ public class Evento {
 
     }
 
-    public Evento(UUID eventid, /*Boolean owned,*/ String name, Timestamp date, String place, Integer capacity, Utente creatore) {
-        this.eventid = eventid;
+    public Evento(/*Boolean owned,*/ String name, Timestamp date, String place, Integer capacity, Utente creatore) {
+        this.eventid = UUID.randomUUID();
         //this.owned = owned;
         this.name = name;
         this.date = date;
         this.place = place;
         this.capacity = capacity;
         this.creatore = creatore;
+        this.numUtentiRegistrati = 0;
     }
 
     //metodi
 
+    public boolean aumentaNumeroPartecipanti(){
+        if(numUtentiRegistrati< capacity){
+            this.numUtentiRegistrati++;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean disminuisciNumeroParticipanti(){
+        if(numUtentiRegistrati > 0){
+            this.numUtentiRegistrati--;
+            return true;
+        }
+        return false;
+    }
+
+    public Integer getNumUtentiRegistrati() {
+        return numUtentiRegistrati;
+    }
 
     public UUID getEventid() {
         return eventid;

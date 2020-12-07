@@ -19,8 +19,7 @@ public class EventoView {
 
     //Costruttore
 
-    public EventoView(UUID eventid, String name, Timestamp date, String place, Integer capacity){
-        this.eventid = eventid;
+    public EventoView(String name, Timestamp date, String place, Integer capacity){
         this.name = name;
         this.date = date;
         this.place = place;
@@ -54,5 +53,9 @@ public class EventoView {
 
     public void setOwned(Boolean owned) {
         this.owned = owned;
+    }
+
+    public void setEventid(UUID eventid) {
+        this.eventid = eventid;
     }
 }

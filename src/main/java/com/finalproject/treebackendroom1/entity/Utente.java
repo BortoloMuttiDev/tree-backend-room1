@@ -62,6 +62,10 @@ public class Utente {
         this.eventiPartecipazione.add(evento);
     }
 
+    public void removeEventoPartecipazione(Evento evento){
+        this.eventiPartecipazione.remove(evento);
+    }
+
 
     public List<Evento> getEventiCreati() {
         return eventiCreati;
