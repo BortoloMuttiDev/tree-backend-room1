@@ -81,18 +81,20 @@ public class EventoController {
                     if(logInUtente.isPresent()){
                         Optional<Utente> utenteToJoin = utenteRepository.findById(logInUtente.get().getUsername());
                         if(utenteToJoin.isPresent()){
-            
-                            eventoToJoin.get().aumentaNumeroPartecipanti();
-                            utenteToJoin.get().addEventoPartecipazione(eventoToJoin.get());
-                            utenteRepository.save(utenteToJoin.get());
-                            eventoRepository.save(eventoToJoin.get());
-                            response.setStatus(201);
-                            Cookie unaCookie = new Cookie("idCookie", requestCookie);
-                            response.addCookie(unaCookie);
-                            return new EventoView(/*eventoToJoin.get().getEventid(),*/eventoToJoin.get().getName(),
-                                    (Timestamp) eventoToJoin.get().getDate(), eventoToJoin.get().getPlace(),
-                                    eventoToJoin.get().getCapacity());
 
+                            if(!utenteToJoin.get().getEventiPartecipazione().contains(eventoToJoin.get())){
+                                eventoToJoin.get().aumentaNumeroPartecipanti();
+                                utenteToJoin.get().addEventoPartecipazione(eventoToJoin.get());
+                                utenteRepository.save(utenteToJoin.get());
+                                eventoRepository.save(eventoToJoin.get());
+                                response.setStatus(201);
+                                Cookie unaCookie = new Cookie("idCookie", requestCookie);
+                                response.addCookie(unaCookie);
+                                return new EventoView(/*eventoToJoin.get().getEventid(),*/eventoToJoin.get().getName(),
+                                        (Timestamp) eventoToJoin.get().getDate(), eventoToJoin.get().getPlace(),
+                                        eventoToJoin.get().getCapacity());
+
+                            }
                         }
 
                     }
