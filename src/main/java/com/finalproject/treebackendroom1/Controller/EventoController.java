@@ -215,7 +215,7 @@ public class EventoController {
             if(utente.isPresent()){
                 for(Evento evento : utente.get().getEventiPartecipazione()){
 
-                    if (evento.getDate().before(dataDiOggi)){
+                    if (evento.getDate().after(dataDiOggi)){
 
                         EventoView eventoView = new EventoView(evento.getName(), (Timestamp) evento.getDate(),
                                 evento.getPlace(), evento.getCapacity());
