@@ -81,7 +81,7 @@ public class EventoController {
                     if(logInUtente.isPresent()){
                         Optional<Utente> utenteToJoin = utenteRepository.findById(logInUtente.get().getUsername());
                         if(utenteToJoin.isPresent()){
-
+            
                             eventoToJoin.get().aumentaNumeroPartecipanti();
                             utenteToJoin.get().addEventoPartecipazione(eventoToJoin.get());
                             utenteRepository.save(utenteToJoin.get());
