@@ -116,6 +116,7 @@ public class EventoController {
             if(logInUtente.isPresent()){
                 Optional<Utente> utenteToUnJoin = utenteRepository.findById(logInUtente.get().getUsername());
                 if(utenteToUnJoin.isPresent()){
+
                     if(utenteToUnJoin.get().getEventiPartecipazione().contains(eventoToUnJoin.get())){
                         utenteToUnJoin.get().removeEventoPartecipazione(eventoToUnJoin.get());
                         eventoToUnJoin.get().disminuisciNumeroParticipanti();
@@ -154,7 +155,6 @@ public class EventoController {
             Optional<Utente> utenteCreatore = utenteRepository.findById(logInUtente.get().getUsername());
             if(utenteCreatore.isPresent()){
 
-
                     Evento eventoToCreate = new Evento(eventoView.getName(),eventoView.getDate(),
                             eventoView.getPlace(),eventoView.getCapacity(), utenteCreatore.get());
                     eventoView.setEventid(eventoToCreate.getEventid());
@@ -191,6 +191,7 @@ public class EventoController {
 
                 response.setStatus(200);
                 EventoView eventoView = new EventoView(eventoToFind.get().getName(),(Timestamp) eventoToFind.get().getDate(), eventoToFind.get().getPlace(), eventoToFind.get().getCapacity()-eventoToFind.get().getNumUtentiRegistrati());
+                eventoView.setEventid(eventoToFind.get().getEventid());
                 return eventoView;
             }
 
