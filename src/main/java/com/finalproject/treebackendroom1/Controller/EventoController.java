@@ -90,9 +90,12 @@ public class EventoController {
                                 response.setStatus(201);
                                 Cookie unaCookie = new Cookie("idCookie", requestCookie);
                                 response.addCookie(unaCookie);
-                                return new EventoView(/*eventoToJoin.get().getEventid(),*/eventoToJoin.get().getName(),
+
+                                EventoView eventoView = new EventoView(/*eventoToJoin.get().getEventid(),*/eventoToJoin.get().getName(),
                                         (Timestamp) eventoToJoin.get().getDate(), eventoToJoin.get().getPlace(),
                                         eventoToJoin.get().getCapacity());
+                                eventoView.setEventid(eventoToJoin.get().getEventid());
+                                return eventoView;
 
                             }
                         }
@@ -107,7 +110,7 @@ public class EventoController {
     }
 
     @PostMapping("/unjoin/{eventid}")
-    public EventoView unjoinEvent(@PathParam("eventid") String eventid, HttpServletRequest request, HttpServletResponse response,
+    public EventoView unjoinEvent(@PathVariable("eventid") String eventid, HttpServletRequest request, HttpServletResponse response,
                                 @CookieValue(value = "idCookie") String requestCookie){
         Optional<Evento> eventoToUnJoin = eventoRepository.findById(UUID.fromString(eventid));
         if(eventoToUnJoin.isPresent()){
@@ -180,7 +183,7 @@ public class EventoController {
     }
 
     @GetMapping("/event/{eventid}")
-    public EventoView getEventDetails (@PathParam ("eventid") String eventid,HttpServletRequest request, HttpServletResponse response,
+    public EventoView getEventDetails (@PathVariable ("eventid") String eventid,HttpServletRequest request, HttpServletResponse response,
                                        @CookieValue(value = "idCookie") String requestCookie){
 
         Optional<LogIn> logInUtente = logInRepository.findByCookie(UUID.fromString(requestCookie));
