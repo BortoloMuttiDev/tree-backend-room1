@@ -127,9 +127,13 @@ public class EventoController {
                         response.setStatus(201);
                         Cookie unaCookie = new Cookie("idCookie", requestCookie);
                         response.addCookie(unaCookie);
-                        return new EventoView(/*eventoToUnJoin.get().getEventid(),*/ eventoToUnJoin.get().getName(),
+
+                        EventoView eventoView = new EventoView(/*eventoToUnJoin.get().getEventid(),*/ eventoToUnJoin.get().getName(),
                                 (Timestamp) eventoToUnJoin.get().getDate(), eventoToUnJoin.get().getPlace(),
                                 eventoToUnJoin.get().getCapacity());
+                        eventoView.setEventid(eventoToUnJoin.get().getEventid());
+
+                        return eventoView;
 
                     }
 
