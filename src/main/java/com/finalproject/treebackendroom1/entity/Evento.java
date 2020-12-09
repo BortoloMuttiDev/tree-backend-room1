@@ -35,8 +35,9 @@ public class Evento {
 
     }
 
-    public Evento(/*Boolean owned,*/ String name, Timestamp date, String place, Integer capacity, Utente creatore) {
-        this.eventid = UUID.randomUUID();
+    public Evento(/*Boolean owned,*/UUID eventoid, String name, Timestamp date, String place, Integer capacity, Utente creatore) {
+        this.eventid = eventoid;
+        //this.eventid = UUID.randomUUID();
         //this.owned = owned;
         this.name = name;
         this.date = date;

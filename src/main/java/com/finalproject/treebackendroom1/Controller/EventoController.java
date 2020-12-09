@@ -160,9 +160,10 @@ public class EventoController {
             Optional<Utente> utenteCreatore = utenteRepository.findById(logInUtente.get().getUsername());
             if(utenteCreatore.isPresent()){
 
-                    Evento eventoToCreate = new Evento(eventoView.getName(),eventoView.getDate(),
+                    UUID eventoid = UUID.randomUUID();
+                    Evento eventoToCreate = new Evento(eventoid, eventoView.getName(),eventoView.getDate(),
                             eventoView.getPlace(),eventoView.getCapacity(), utenteCreatore.get());
-                    eventoView.setEventid(eventoToCreate.getEventid());
+                    eventoView.setEventid(eventoid);
                     eventoView.setJoined(true);
                     eventoView.setOwned(true);
 
@@ -228,6 +229,7 @@ public class EventoController {
                         EventoView eventoView = new EventoView(evento.getName(), (Timestamp) evento.getDate(),
                                 evento.getPlace(), evento.getCapacity());
                         eventoView.setEventid(evento.getEventid());
+                        eventoView.setJoined(true);
                         listaEventi.add(eventoView);
                     }
 
