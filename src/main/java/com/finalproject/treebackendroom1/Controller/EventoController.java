@@ -230,6 +230,9 @@ public class EventoController {
                                 evento.getPlace(), evento.getCapacity());
                         eventoView.setEventid(evento.getEventid());
                         eventoView.setJoined(true);
+                        if(utente.get().getEventiCreati().contains(evento)){
+                            eventoView.setOwned(true);
+                        }
                         listaEventi.add(eventoView);
                     }
 
