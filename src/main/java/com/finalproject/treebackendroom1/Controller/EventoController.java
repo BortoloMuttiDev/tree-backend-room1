@@ -95,6 +95,7 @@ public class EventoController {
                                         (Timestamp) eventoToJoin.get().getDate(), eventoToJoin.get().getPlace(),
                                         eventoToJoin.get().getCapacity());
                                 eventoView.setEventid(eventoToJoin.get().getEventid());
+                                eventoView.setJoined(true);
                                 return eventoView;
 
                             }
@@ -110,7 +111,7 @@ public class EventoController {
     }
 
     @PostMapping("/unjoin/{eventid}")
-    public EventoView unjoinEvent(@PathVariable("eventid") String eventid, HttpServletRequest request, HttpServletResponse response,
+    public EventoView unjoinEvent(@PathVariable String eventid, HttpServletRequest request, HttpServletResponse response,
                                 @CookieValue(value = "idCookie") String requestCookie){
         Optional<Evento> eventoToUnJoin = eventoRepository.findById(UUID.fromString(eventid));
         if(eventoToUnJoin.isPresent()){
@@ -136,6 +137,7 @@ public class EventoController {
                                 (Timestamp) eventoToUnJoin.get().getDate(), eventoToUnJoin.get().getPlace(),
                                 eventoToUnJoin.get().getCapacity());
                         eventoView.setEventid(eventoToUnJoin.get().getEventid());
+                        eventoView.setJoined(true);
 
                         return eventoView;
 
@@ -161,6 +163,8 @@ public class EventoController {
                     Evento eventoToCreate = new Evento(eventoView.getName(),eventoView.getDate(),
                             eventoView.getPlace(),eventoView.getCapacity(), utenteCreatore.get());
                     eventoView.setEventid(eventoToCreate.getEventid());
+                    eventoView.setJoined(true);
+                    eventoView.setOwned(true);
 
                     utenteCreatore.get().addEventoCreato(eventoToCreate);
                     utenteCreatore.get().addEventoPartecipazione(eventoToCreate);
@@ -256,6 +260,7 @@ public class EventoController {
                         utente.get().getEventiCreati().remove(eventoToDelete.get());
                         EventoView eventoViewToReturn = new EventoView(eventoToDelete.get().getName(), (Timestamp) eventoToDelete.get().getDate(),
                                 eventoToDelete.get().getPlace(), eventoToDelete.get().getCapacity());
+                        eventoViewToReturn.setEventid(eventoToDelete.get().getEventid());
 
                         for(Utente utenteRepo : utenteRepository.findAll()){
                             utenteRepo.getEventiPartecipazione().remove(eventoToDelete.get());

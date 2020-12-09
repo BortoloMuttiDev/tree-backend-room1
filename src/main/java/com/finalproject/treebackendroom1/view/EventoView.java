@@ -10,6 +10,7 @@ public class EventoView {
     //Attributi
     private UUID eventid;
     private Boolean owned;
+    private Boolean joined;
     private String name;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'hh:mm:ss")
@@ -57,5 +58,13 @@ public class EventoView {
 
     public void setEventid(UUID eventid) {
         this.eventid = eventid;
+    }
+
+    public Boolean getJoined() {
+        return joined;
+    }
+
+    public void setJoined(Boolean joined) {
+        this.joined = joined;
     }
 }
