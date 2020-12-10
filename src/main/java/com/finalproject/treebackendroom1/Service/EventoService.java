@@ -198,8 +198,20 @@ public class EventoService {
             if (eventoToFind.isPresent()){
 
                 response.setStatus(200);
-                EventoView eventoView = new EventoView(eventoToFind.get().getName(),(Timestamp) eventoToFind.get().getDate(), eventoToFind.get().getPlace(), eventoToFind.get().getCapacity()-eventoToFind.get().getNumUtentiRegistrati());
+                EventoView eventoView = new EventoView(eventoToFind.get().getName(),(Timestamp) eventoToFind.get().getDate(), eventoToFind.get().getPlace(),
+                        (eventoToFind.get().getCapacity()-eventoToFind.get().getNumUtentiRegistrati()));
                 eventoView.setEventid(eventoToFind.get().getEventid());
+
+                if(utenteRepository.findById(logInUtente.get().getUsername()).isPresent()){
+                    if(utenteRepository.findById(logInUtente.get().getUsername()).get().getEventiCreati().
+                            contains(eventoToFind.get())){
+                        eventoView.setOwned(true);
+                    }
+                    if(utenteRepository.findById(logInUtente.get().getUsername()).get().getEventiPartecipazione().
+                            contains(eventoToFind.get())){
+                        eventoView.setJoined(true);
+                    }
+                }
                 return eventoView;
             }
 
