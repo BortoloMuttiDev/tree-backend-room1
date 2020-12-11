@@ -41,11 +41,8 @@ public class UtenteService {
             System.out.println(utenteView.getUsername() + " " + utenteView.getName());
             //utenteView.setPassword(password);
             utenteRepository.save(utenteToAdd);
-            response.setStatus(201);
             UUID idCookie = UUID.randomUUID();
             LogIn logInUtente = new LogIn(utenteToAdd.getUsername(), idCookie);
-            Cookie unaCookie = new Cookie("idCookie", idCookie.toString());
-            response.addCookie(unaCookie);
             logInRepository.save(logInUtente);
             return utenteView;
         }

@@ -23,7 +23,7 @@ public class Evento {
     private Date date;
     private String place;
     private Integer capacity;
-    private Integer numUtentiRegistrati;
+    private Integer numUtentiRegistrati; //Esta se  podia calcular con lista utenti partecipazione
 
 
     @ManyToOne

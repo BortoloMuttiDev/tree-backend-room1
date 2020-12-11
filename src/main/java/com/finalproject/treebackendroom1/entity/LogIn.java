@@ -3,6 +3,7 @@ package com.finalproject.treebackendroom1.entity;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -18,6 +19,11 @@ public class LogIn {
     //non salvare cookie in database ma il valore asociado a la cookie
     private UUID cookie;
 
+    /*
+    //Podria ser util tener una lista de login pasados, agregando data
+    private Date dataLogIn;
+    private Boolean isValid; //solo la data mas reciente sera valido
+    */
 
     public LogIn(){
 

@@ -33,7 +33,17 @@ public class UtenteController {
 
     @PostMapping("/user")
     public UtenteView signUpUser(@RequestBody UtenteView utenteView, HttpServletRequest request, HttpServletResponse response){
-        return utenteService.signUpUser(utenteView, request, response);
+        UtenteView utenteViewToReturn = utenteService.signUpUser(utenteView, request, response);
+
+        Optional<LogIn> logInUtente = logInRepository.findByUsername(utenteView.getUsername());
+
+        if(logInUtente.isPresent()){
+            response.setStatus(201);
+            Cookie unaCookie = new Cookie("idCookie", logInUtente.get().getCookie().toString());
+            response.addCookie(unaCookie);
+
+        }
+        return utenteViewToReturn;
     }
 
     @GetMapping("/login")

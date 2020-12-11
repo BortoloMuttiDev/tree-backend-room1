@@ -279,8 +279,11 @@ public class EventoService {
                                 eventoToDelete.get().getPlace(), eventoToDelete.get().getCapacity());
                         eventoViewToReturn.setEventid(eventoToDelete.get().getEventid());
 
+
+                        //Todo: Verificare se è redundante, cual es el comportamiento de la join table
                         for(Utente utenteRepo : utenteRepository.findAll()){
                             utenteRepo.getEventiPartecipazione().remove(eventoToDelete.get());
+
                         }
 
                         eventoRepository.delete(eventoToDelete.get());
