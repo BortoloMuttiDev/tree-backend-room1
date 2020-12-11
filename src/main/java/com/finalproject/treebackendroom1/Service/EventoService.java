@@ -137,7 +137,7 @@ public class EventoService {
                                 (Timestamp) eventoToUnJoin.get().getDate(), eventoToUnJoin.get().getPlace(),
                                 eventoToUnJoin.get().getCapacity());
                         eventoView.setEventid(eventoToUnJoin.get().getEventid());
-                        eventoView.setJoined(true);
+                        eventoView.setJoined(false);
 
                         return eventoView;
 
